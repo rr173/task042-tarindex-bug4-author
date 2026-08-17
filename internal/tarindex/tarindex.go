@@ -237,6 +237,8 @@ func (s *Service) Search(id string, f Filters) (SearchResp, error) {
 	if f.Offset < 0 {
 		return SearchResp{}, ErrInvalidOffset
 	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	a, ok := s.archives[id]
 	if !ok {
 		return SearchResp{}, ErrNotFound
